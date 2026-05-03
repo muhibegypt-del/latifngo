@@ -17,7 +17,10 @@ export function Footer({ onNavigate, isNavigating }: FooterProps) {
             <div className="mb-8">
               <Logo
                 onClick={() => onNavigate('home')}
-                size="small"
+                variant="full"
+                orientation="stacked"
+                size="lg"
+                tone="dark"
                 ariaLabel="Go to top"
               />
             </div>

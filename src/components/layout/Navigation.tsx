@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Menu, X } from 'lucide-react';
 import { NavLink, Button } from '../shared';
+import { Logo } from '../atoms/Logo';
 import { focus } from '../../theme/tokens';
 
 type View = 'home' | 'islamic-education-trust' | 'baitul-khair' | 'ebdurahman-foundation' | 'water-well' | 'educational-sponsorships' | 'skills-training' | 'orphan-empowerment' | 'sustainable-development';
@@ -128,12 +129,28 @@ export function Navigation({
                   type="button"
                   onClick={() => handleViewChange('home')}
                   disabled={isNavigating}
-                  className={`md:hidden p-3 -ml-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-900 hover:bg-stone-100 rounded-lg transition-[background-color,transform] duration-200 active:scale-95 [touch-action:manipulation] ${focus.ring} ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`md:hidden p-3 -ml-3 min-w-[44px] min-h-[44px] flex items-center justify-center ${isScrolled ? 'text-stone-900' : 'text-stone-100'} hover:bg-stone-100/20 rounded-lg transition-[background-color,transform,color] duration-200 active:scale-95 [touch-action:manipulation] ${focus.ring} ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
                   aria-label="Back to home"
                 >
                   <ArrowLeft size={20} strokeWidth={2} aria-hidden="true" />
                 </button>
               )}
+              <Logo
+                onClick={() => handleViewChange('home')}
+                variant="full"
+                size="sm"
+                tone={isScrolled ? 'dark' : 'light'}
+                className="hidden md:inline-flex"
+                ariaLabel="The Latif Foundation — home"
+              />
+              <Logo
+                onClick={() => handleViewChange('home')}
+                variant="mark"
+                size="sm"
+                tone={isScrolled ? 'dark' : 'light'}
+                className="md:hidden"
+                ariaLabel="The Latif Foundation — home"
+              />
             </div>
 
             {/* 2. NAVIGATION COLUMN (Perfect Center) */}
@@ -147,7 +164,7 @@ export function Navigation({
                     type="button"
                     onClick={() => handleViewChange('home')}
                     disabled={isNavigating}
-                    className={`text-stone-500 hover:text-foundation-primary text-sm font-medium tracking-wide uppercase flex items-center gap-2 transition-colors duration-200 whitespace-nowrap ${focus.ring} ${isNavigating ? 'cursor-not-allowed' : ''}`}
+                    className={`${isScrolled ? 'text-stone-500 hover:text-foundation-primary' : 'text-stone-100/90 hover:text-white'} text-sm font-medium tracking-wide uppercase flex items-center gap-2 transition-colors duration-200 whitespace-nowrap ${focus.ring} ${isNavigating ? 'cursor-not-allowed' : ''}`}
                   >
                     <ArrowLeft size={16} className="-mt-0.5" aria-hidden="true" />
                     <span>Back to Home</span>
@@ -156,6 +173,7 @@ export function Navigation({
                   <>
                     <NavLink
                       href="#inspiration"
+                      tone={isScrolled ? 'default' : 'light'}
                       onClick={() => handleNavClick('inspiration')}
                       className="whitespace-nowrap"
                     >
@@ -163,6 +181,7 @@ export function Navigation({
                     </NavLink>
                     <NavLink
                       href="#coalition"
+                      tone={isScrolled ? 'default' : 'light'}
                       onClick={() => handleNavClick('coalition')}
                       className="whitespace-nowrap"
                     >
@@ -170,6 +189,7 @@ export function Navigation({
                     </NavLink>
                     <NavLink
                       href="#focus"
+                      tone={isScrolled ? 'default' : 'light'}
                       onClick={() => handleNavClick('focus')}
                       className="whitespace-nowrap"
                     >
@@ -197,7 +217,7 @@ export function Navigation({
                 ref={menuToggleRef}
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className={`md:hidden p-3 -mr-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-900 hover:bg-stone-100 rounded-lg transition-[background-color,transform] duration-200 active:scale-95 [touch-action:manipulation] ${focus.ring}`}
+                className={`md:hidden p-3 -mr-3 min-w-[44px] min-h-[44px] flex items-center justify-center ${mobileMenuOpen || isScrolled ? 'text-stone-900 hover:bg-stone-100' : 'text-stone-100 hover:bg-white/10'} rounded-lg transition-[background-color,transform,color] duration-200 active:scale-95 [touch-action:manipulation] ${focus.ring}`}
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"

@@ -87,7 +87,7 @@ export const MoroccanPatternBackground = () => (
 
 // --- UI COMPONENTS ---
 
-type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'outlineLight' | 'ghost';
 
 interface CommonButtonProps {
   children: ReactNode;
@@ -111,6 +111,7 @@ const buttonVariants: Record<ButtonVariant, string> = {
   primary: "bg-foundation-primary text-stone-50 hover:bg-foundation-dark hover:shadow-xl hover:-translate-y-0.5 ring-foundation-primary active:translate-y-0 active:shadow-none",
   secondary: "bg-stone-100 text-foundation-dark hover:bg-stone-200 ring-stone-200 hover:-translate-y-0.5",
   outline: "border border-stone-300 text-stone-600 hover:border-foundation-primary hover:text-foundation-primary hover:bg-stone-50",
+  outlineLight: "border border-white/30 text-stone-100 hover:border-white hover:text-white hover:bg-white/10",
   ghost: "text-stone-500 hover:text-foundation-primary hover:bg-stone-50/50",
 };
 
@@ -160,6 +161,7 @@ interface NavLinkProps {
   href: string;
   children: ReactNode;
   mobile?: boolean;
+  tone?: 'default' | 'light';
   onClick?: () => void;
   active?: boolean;
   className?: string;
@@ -168,29 +170,40 @@ interface NavLinkProps {
 const isModifiedClick = (e: MouseEvent<HTMLAnchorElement>) =>
   e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
 
-export const NavLink = ({ href, children, mobile = false, onClick, active = false, className = "" }: NavLinkProps) => (
-  <a
-    href={href}
-    onClick={(e) => {
-      if (isModifiedClick(e)) return;
-      e.preventDefault();
-      if (onClick) onClick();
-    }}
-    aria-current={active ? 'page' : undefined}
-    className={`
-      relative group text-[13px] font-medium tracking-wide uppercase
-      transition-[color,transform] duration-300
-      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foundation-primary focus-visible:ring-offset-2 rounded-sm
-      ${mobile
-        ? "text-3xl font-serif italic normal-case py-6 text-stone-800 border-b border-stone-100 block"
-        : active ? "text-foundation-primary" : "text-stone-500 hover:text-foundation-primary hover:scale-[1.02]"
-      }
-      ${className}
-    `}
-  >
-    {children}
-    {!mobile && (
-      <span className={`absolute -bottom-2 left-0 h-px bg-foundation-primary transition-[width,opacity] duration-300 ease-out ${active ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'}`}></span>
-    )}
-  </a>
-);
+export const NavLink = ({ href, children, mobile = false, tone = 'default', onClick, active = false, className = "" }: NavLinkProps) => {
+  const desktopColor =
+    active
+      ? 'text-foundation-primary'
+      : tone === 'light'
+        ? 'text-stone-100/90 hover:text-white hover:scale-[1.02]'
+        : 'text-stone-500 hover:text-foundation-primary hover:scale-[1.02]';
+
+  const underlineColor = tone === 'light' ? 'bg-white' : 'bg-foundation-primary';
+
+  return (
+    <a
+      href={href}
+      onClick={(e) => {
+        if (isModifiedClick(e)) return;
+        e.preventDefault();
+        if (onClick) onClick();
+      }}
+      aria-current={active ? 'page' : undefined}
+      className={`
+        relative group text-[13px] font-medium tracking-wide uppercase
+        transition-[color,transform] duration-300
+        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foundation-primary focus-visible:ring-offset-2 rounded-sm
+        ${mobile
+          ? "text-3xl font-serif italic normal-case py-6 text-stone-800 border-b border-stone-100 block"
+          : desktopColor
+        }
+        ${className}
+      `}
+    >
+      {children}
+      {!mobile && (
+        <span className={`absolute -bottom-2 left-0 h-px ${underlineColor} transition-[width,opacity] duration-300 ease-out ${active ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'}`}></span>
+      )}
+    </a>
+  );
+};

@@ -105,7 +105,7 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
                   <Button variant="primary" onClick={() => scrollToId('fundraisers')}>
                     Current Fundraisers
                   </Button>
-                  <Button variant="ghost" className="text-stone-300 hover:text-white hover:bg-white/10" onClick={() => scrollToId('coalition')}>
+                  <Button variant="outlineLight" onClick={() => scrollToId('coalition')}>
                     Learn About Our Coalition
                   </Button>
                 </div>
