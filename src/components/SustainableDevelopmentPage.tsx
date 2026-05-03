@@ -1,10 +1,6 @@
 import { Section, Button } from './shared';
 
-interface SustainableDevelopmentPageProps {
-  navigateTo: (view: string) => void;
-}
-
-export const SustainableDevelopmentPage = ({ navigateTo }: SustainableDevelopmentPageProps) => (
+export const SustainableDevelopmentPage = () => (
   <section className="relative min-h-screen flex items-center justify-center py-32 bg-stone-50">
     <Section className="relative z-10">
       <div className="max-w-3xl mx-auto text-center">
@@ -22,7 +18,7 @@ export const SustainableDevelopmentPage = ({ navigateTo }: SustainableDevelopmen
           </p>
         </div>
 
-        <Button variant="primary" onClick={() => navigateTo('ramadan')}>
+        <Button variant="primary" href="mailto:info@latiffoundation.org?subject=Long%20Term%20Sustainable%20Development">
           Support This Initiative
         </Button>
       </div>

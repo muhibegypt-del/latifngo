@@ -31,7 +31,7 @@ export function MainLayout({
         isNavigating={isNavigating}
       />
 
-      <main id="main-content" tabIndex={-1} className="outline-none">
+      <main id="main-content" tabIndex={-1}>
         {children}
       </main>
 

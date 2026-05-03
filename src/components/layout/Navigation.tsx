@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { ArrowLeft, Menu, X } from 'lucide-react';
 import { NavLink, Button } from '../shared';
+import { Logo } from '../atoms/Logo';
 import { focus } from '../../theme/tokens';
 
 type View = 'home' | 'islamic-education-trust' | 'baitul-khair' | 'ebdurahman-foundation' | 'water-well' | 'educational-sponsorships' | 'skills-training' | 'orphan-empowerment' | 'sustainable-development';
@@ -13,6 +14,10 @@ interface NavigationProps {
   isNavigating: boolean;
 }
 
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 export function Navigation({
   view,
   isScrolled,
@@ -21,6 +26,8 @@ export function Navigation({
   isNavigating
 }: NavigationProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuToggleRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (mobileMenuOpen) {
@@ -37,6 +44,42 @@ export function Navigation({
     setMobileMenuOpen(false);
   }, [view]);
 
+  // Escape closes the dialog and returns focus to the toggle.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setMobileMenuOpen(false);
+        menuToggleRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [mobileMenuOpen]);
+
+  // Move focus into the dialog when it opens.
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const firstFocusable = dialogRef.current?.querySelector<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    firstFocusable?.focus();
+  }, [mobileMenuOpen]);
+
+  // Toggle the `inert` attribute on the dialog so closed state is fully
+  // inactive for assistive tech and keyboard users (React 18 has no JSX prop).
+  useEffect(() => {
+    const node = dialogRef.current;
+    if (!node) return;
+    if (mobileMenuOpen) {
+      node.removeAttribute('inert');
+    } else {
+      node.setAttribute('inert', '');
+    }
+  }, [mobileMenuOpen]);
+
   const handleNavClick = (sectionId: string) => {
     onSectionScroll(sectionId);
     setMobileMenuOpen(false);
@@ -47,27 +90,29 @@ export function Navigation({
     setMobileMenuOpen(false);
   };
 
+  const handleSkipLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const main = document.getElementById('main-content');
+    if (main) {
+      main.focus();
+      main.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
+    }
+  };
+
   return (
     <>
       <a
         href="#main-content"
-        onClick={(e) => {
-          e.preventDefault();
-          const main = document.getElementById('main-content');
-          if (main) {
-            main.focus();
-            main.scrollIntoView({ behavior: 'smooth' });
-          }
-        }}
+        onClick={handleSkipLink}
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-foundation-primary focus:text-white focus:rounded-md"
       >
         Skip to main content
       </a>
 
       <nav
-        role="navigation"
-        aria-label="Main Navigation"
-        className={`fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-in-out border-b ${
+        aria-label="Main"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+        className={`fixed top-0 left-0 right-0 z-50 w-full ease-in-out border-b transition-[height,background-color,box-shadow,border-color] duration-300 ${
           isScrolled
             ? 'h-16 bg-stone-50/95 backdrop-blur-md shadow-sm border-stone-100'
             : 'h-24 bg-transparent border-transparent'
@@ -81,32 +126,54 @@ export function Navigation({
             <div className="md:col-span-3 flex justify-start items-center h-full gap-3">
               {view !== 'home' && (
                 <button
+                  type="button"
                   onClick={() => handleViewChange('home')}
                   disabled={isNavigating}
-                  className={`md:hidden p-3 -ml-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-900 hover:bg-stone-100 rounded-lg transition-all active:scale-95 ${focus.ring} ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
+                  className={`md:hidden p-3 -ml-3 min-w-[44px] min-h-[44px] flex items-center justify-center ${isScrolled ? 'text-stone-900' : 'text-stone-100'} hover:bg-stone-100/20 rounded-lg transition-[background-color,transform,color] duration-200 active:scale-95 [touch-action:manipulation] ${focus.ring} ${isNavigating ? 'opacity-50 cursor-not-allowed' : ''}`}
                   aria-label="Back to home"
                 >
-                  <ArrowLeft size={20} strokeWidth={2} />
+                  <ArrowLeft size={20} strokeWidth={2} aria-hidden="true" />
                 </button>
               )}
+              <Logo
+                onClick={() => handleViewChange('home')}
+                variant="full"
+                size="sm"
+                tone={isScrolled ? 'dark' : 'light'}
+                className="hidden md:inline-flex"
+                ariaLabel="The Latif Foundation — home"
+              />
+              <Logo
+                onClick={() => handleViewChange('home')}
+                variant="mark"
+                size="sm"
+                tone={isScrolled ? 'dark' : 'light'}
+                className="md:hidden"
+                ariaLabel="The Latif Foundation — home"
+              />
             </div>
 
             {/* 2. NAVIGATION COLUMN (Perfect Center) */}
             <div className="hidden md:flex md:col-span-6 justify-center items-center h-full">
-              <div className={`flex items-center gap-6 lg:gap-7 xl:gap-8 transition-opacity duration-150 ${isNavigating ? 'opacity-50 pointer-events-none' : ''}`}>
+              <div
+                aria-busy={isNavigating}
+                className={`flex items-center gap-6 lg:gap-7 xl:gap-8 transition-opacity duration-150 ${isNavigating ? 'opacity-50 pointer-events-none' : ''}`}
+              >
                 {view !== 'home' ? (
                   <button
+                    type="button"
                     onClick={() => handleViewChange('home')}
                     disabled={isNavigating}
-                    className={`text-stone-500 hover:text-foundation-primary text-sm font-medium tracking-wide uppercase flex items-center gap-2 transition-colors whitespace-nowrap ${focus.ring} ${isNavigating ? 'cursor-not-allowed' : ''}`}
+                    className={`${isScrolled ? 'text-stone-500 hover:text-foundation-primary' : 'text-stone-100/90 hover:text-white'} text-sm font-medium tracking-wide uppercase flex items-center gap-2 transition-colors duration-200 whitespace-nowrap ${focus.ring} ${isNavigating ? 'cursor-not-allowed' : ''}`}
                   >
-                    <ArrowLeft size={16} className="-mt-0.5" />
+                    <ArrowLeft size={16} className="-mt-0.5" aria-hidden="true" />
                     <span>Back to Home</span>
                   </button>
                 ) : (
                   <>
                     <NavLink
                       href="#inspiration"
+                      tone={isScrolled ? 'default' : 'light'}
                       onClick={() => handleNavClick('inspiration')}
                       className="whitespace-nowrap"
                     >
@@ -114,6 +181,7 @@ export function Navigation({
                     </NavLink>
                     <NavLink
                       href="#coalition"
+                      tone={isScrolled ? 'default' : 'light'}
                       onClick={() => handleNavClick('coalition')}
                       className="whitespace-nowrap"
                     >
@@ -121,6 +189,7 @@ export function Navigation({
                     </NavLink>
                     <NavLink
                       href="#focus"
+                      tone={isScrolled ? 'default' : 'light'}
                       onClick={() => handleNavClick('focus')}
                       className="whitespace-nowrap"
                     >
@@ -145,16 +214,18 @@ export function Navigation({
 
               {/* Mobile Menu Toggle */}
               <button
+                ref={menuToggleRef}
+                type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className={`md:hidden p-3 -mr-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-900 hover:bg-stone-100 rounded-lg transition-all active:scale-95 ${focus.ring}`}
+                className={`md:hidden p-3 -mr-3 min-w-[44px] min-h-[44px] flex items-center justify-center ${mobileMenuOpen || isScrolled ? 'text-stone-900 hover:bg-stone-100' : 'text-stone-100 hover:bg-white/10'} rounded-lg transition-[background-color,transform,color] duration-200 active:scale-95 [touch-action:manipulation] ${focus.ring}`}
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
               >
                 {mobileMenuOpen ? (
-                  <X size={22} strokeWidth={2} />
+                  <X size={22} strokeWidth={2} aria-hidden="true" />
                 ) : (
-                  <Menu size={22} strokeWidth={2} />
+                  <Menu size={22} strokeWidth={2} aria-hidden="true" />
                 )}
               </button>
             </div>
@@ -166,17 +237,22 @@ export function Navigation({
       {/* Mobile Menu Overlay */}
       <div
         id="mobile-menu"
+        ref={dialogRef}
         role="dialog"
+        aria-modal="true"
         aria-label="Mobile navigation menu"
-        aria-hidden={!mobileMenuOpen}
-        className={`fixed inset-0 z-40 bg-stone-50 transition-all duration-500 md:hidden ${
+        style={{
+          paddingTop: 'env(safe-area-inset-top)',
+          paddingBottom: 'env(safe-area-inset-bottom)',
+        }}
+        className={`fixed inset-0 z-40 bg-stone-50 transition-opacity duration-500 md:hidden ${
           mobileMenuOpen
             ? 'opacity-100 pointer-events-auto'
             : 'opacity-0 pointer-events-none'
         }`}
       >
         <div className="flex flex-col h-full pt-32 px-6">
-          <nav className={`flex flex-col space-y-2 transition-opacity duration-150 ${isNavigating ? 'opacity-50 pointer-events-none' : ''}`}>
+          <nav aria-label="Mobile" className={`flex flex-col space-y-2 transition-opacity duration-150 ${isNavigating ? 'opacity-50 pointer-events-none' : ''}`}>
             {view === 'home' ? (
               <>
                 <MobileNavLink onClick={() => handleNavClick('inspiration')} disabled={isNavigating}>Our Story</MobileNavLink>
@@ -201,9 +277,10 @@ export function Navigation({
 function MobileNavLink({ onClick, children, disabled }: { onClick: () => void; children: React.ReactNode; disabled?: boolean }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`text-left text-3xl font-serif text-stone-800 py-4 border-b border-stone-100 hover:text-foundation-primary transition-colors ${focus.ring} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
+      className={`text-left text-3xl font-serif text-stone-800 py-4 border-b border-stone-100 hover:text-foundation-primary transition-colors duration-200 [touch-action:manipulation] ${focus.ring} ${disabled ? 'cursor-not-allowed opacity-50' : ''}`}
     >
       {children}
     </button>

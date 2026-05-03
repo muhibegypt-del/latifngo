@@ -1,10 +1,6 @@
 import { Section, Button } from './shared';
 
-interface EducationalSponsorshipsPageProps {
-  navigateTo: (view: string) => void;
-}
-
-export const EducationalSponsorshipsPage = ({ navigateTo }: EducationalSponsorshipsPageProps) => (
+export const EducationalSponsorshipsPage = () => (
   <section className="relative min-h-screen flex items-center justify-center py-32 bg-stone-50">
     <Section className="relative z-10">
       <div className="max-w-3xl mx-auto text-center">
@@ -22,7 +18,7 @@ export const EducationalSponsorshipsPage = ({ navigateTo }: EducationalSponsorsh
           </p>
         </div>
 
-        <Button variant="primary" onClick={() => navigateTo('ramadan')}>
+        <Button variant="primary" href="mailto:info@latiffoundation.org?subject=Educational%20Sponsorships">
           Support This Initiative
         </Button>
       </div>

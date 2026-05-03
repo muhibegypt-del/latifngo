@@ -44,18 +44,22 @@ export const EbdurahmanFoundationPage = () => (
 
       <Reveal delay={200}>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] border border-stone-200 hover:border-foundation-primary/20 transition-all duration-300 hover:shadow-xl rounded-sm">
+          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] border border-stone-200 hover:border-foundation-primary/20 transition-[border-color,box-shadow] duration-300 hover:shadow-xl rounded-sm">
             <img
               src="/WhatsApp_Image_2026-02-16_at_10.44.21_PM.jpeg"
               alt="Students at Ebadur Rahman Foundation graduation ceremony"
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
 
-          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] border border-stone-200 hover:border-foundation-primary/20 transition-all duration-300 hover:shadow-xl rounded-sm">
+          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] border border-stone-200 hover:border-foundation-primary/20 transition-[border-color,box-shadow] duration-300 hover:shadow-xl rounded-sm">
             <img
               src="/WhatsApp_Image_2026-02-16_at_10.44.21_PM_(1).jpeg"
               alt="Vocational training equipment and supplies at graduation"
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
@@ -64,6 +68,8 @@ export const EbdurahmanFoundationPage = () => (
             <img
               src="/WhatsApp_Image_2026-02-16_at_10.44.18_PM.jpeg"
               alt="Graduates receiving vocational training equipment"
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           </div>
@@ -75,7 +81,7 @@ export const EbdurahmanFoundationPage = () => (
       <Reveal>
         <div className="max-w-3xl mx-auto text-center">
           <blockquote className="text-2xl md:text-3xl font-serif text-foundation-primary leading-snug mb-8 italic">
-            "True empowerment means breaking cycles of dependency and building capacity for independence."
+            &ldquo;True empowerment means breaking cycles of dependency and building capacity for independence.&rdquo;
           </blockquote>
           <p className="text-stone-600 text-lg leading-relaxed">
             Through our partnership with the Ebadur Rahman Foundation Skills and Learning Center, we invest in the next generation, ensuring orphans and vulnerable youth have the skills, tools, and support they need to build dignified, self sustaining lives.

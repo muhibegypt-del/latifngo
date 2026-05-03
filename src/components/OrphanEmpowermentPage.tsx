@@ -1,10 +1,6 @@
 import { Section, Button } from './shared';
 
-interface OrphanEmpowermentPageProps {
-  navigateTo: (view: string) => void;
-}
-
-export const OrphanEmpowermentPage = ({ navigateTo }: OrphanEmpowermentPageProps) => (
+export const OrphanEmpowermentPage = () => (
   <section className="relative min-h-screen flex items-center justify-center py-32 bg-stone-50">
     <Section className="relative z-10">
       <div className="max-w-3xl mx-auto text-center">
@@ -22,7 +18,7 @@ export const OrphanEmpowermentPage = ({ navigateTo }: OrphanEmpowermentPageProps
           </p>
         </div>
 
-        <Button variant="primary" onClick={() => navigateTo('ramadan')}>
+        <Button variant="primary" href="mailto:info@latiffoundation.org?subject=Orphan%20Empowerment%20Projects">
           Support This Initiative
         </Button>
       </div>

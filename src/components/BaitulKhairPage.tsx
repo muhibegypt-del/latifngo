@@ -44,17 +44,17 @@ export const BaitulKhairPage = () => (
 
       <Reveal delay={200}>
         <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] flex items-center justify-center border border-stone-200 hover:border-foundation-primary/20 transition-all duration-300 rounded-sm">
+          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] flex items-center justify-center border border-stone-200 hover:border-foundation-primary/20 transition-[border-color,box-shadow] duration-300 rounded-sm">
             <div className="absolute inset-0 bg-gradient-to-br from-amber-900/5 to-stone-900/5"></div>
             <span className="relative z-10 text-stone-400 font-medium text-sm tracking-widest uppercase">Image Placeholder</span>
           </div>
 
-          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] flex items-center justify-center border border-stone-200 hover:border-foundation-primary/20 transition-all duration-300 rounded-sm">
+          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] flex items-center justify-center border border-stone-200 hover:border-foundation-primary/20 transition-[border-color,box-shadow] duration-300 rounded-sm">
             <div className="absolute inset-0 bg-gradient-to-br from-teal-900/5 to-stone-900/5"></div>
             <span className="relative z-10 text-stone-400 font-medium text-sm tracking-widest uppercase">Image Placeholder</span>
           </div>
 
-          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] flex items-center justify-center border border-stone-200 hover:border-foundation-primary/20 transition-all duration-300 rounded-sm">
+          <div className="group relative overflow-hidden bg-stone-100 aspect-[4/3] flex items-center justify-center border border-stone-200 hover:border-foundation-primary/20 transition-[border-color,box-shadow] duration-300 rounded-sm">
             <div className="absolute inset-0 bg-gradient-to-br from-amber-900/5 to-teal-900/5"></div>
             <span className="relative z-10 text-stone-400 font-medium text-sm tracking-widest uppercase">Image Placeholder</span>
           </div>
@@ -66,7 +66,7 @@ export const BaitulKhairPage = () => (
       <Reveal>
         <div className="max-w-3xl mx-auto text-center">
           <blockquote className="text-2xl md:text-3xl font-serif text-foundation-primary leading-snug mb-8 italic">
-            "Small acts of sincerity can grow into initiatives that nourish entire communities."
+            &ldquo;Small acts of sincerity can grow into initiatives that nourish entire communities.&rdquo;
           </blockquote>
           <p className="text-stone-600 text-lg leading-relaxed">
             Through our partnership with Baitul Khair Foundation, we amplify the power of grassroots compassion, ensuring that relief reaches those who need it most with dignity, transparency, and lasting impact.

@@ -1,10 +1,6 @@
 import { Section, Button } from './shared';
 
-interface SkillsTrainingPageProps {
-  navigateTo: (view: string) => void;
-}
-
-export const SkillsTrainingPage = ({ navigateTo }: SkillsTrainingPageProps) => (
+export const SkillsTrainingPage = () => (
   <section className="relative min-h-screen flex items-center justify-center py-32 bg-stone-50">
     <Section className="relative z-10">
       <div className="max-w-3xl mx-auto text-center">
@@ -22,7 +18,7 @@ export const SkillsTrainingPage = ({ navigateTo }: SkillsTrainingPageProps) => (
           </p>
         </div>
 
-        <Button variant="primary" onClick={() => navigateTo('ramadan')}>
+        <Button variant="primary" href="mailto:info@latiffoundation.org?subject=Skills%20and%20Vocational%20Training">
           Support This Initiative
         </Button>
       </div>

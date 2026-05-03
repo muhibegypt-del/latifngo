@@ -1,10 +1,6 @@
 import { Section, Button } from './shared';
 
-interface WaterWellPageProps {
-  navigateTo: (view: string) => void;
-}
-
-export const WaterWellPage = ({ navigateTo }: WaterWellPageProps) => (
+export const WaterWellPage = () => (
   <section className="relative min-h-screen flex items-center justify-center py-32 bg-stone-50">
     <Section className="relative z-10">
       <div className="max-w-3xl mx-auto text-center">
@@ -22,7 +18,7 @@ export const WaterWellPage = ({ navigateTo }: WaterWellPageProps) => (
           </p>
         </div>
 
-        <Button variant="primary" onClick={() => navigateTo('ramadan')}>
+        <Button variant="primary" href="mailto:info@latiffoundation.org?subject=Water%20Well%20Initiatives">
           Support This Initiative
         </Button>
       </div>

@@ -17,7 +17,10 @@ export function Footer({ onNavigate, isNavigating }: FooterProps) {
             <div className="mb-8">
               <Logo
                 onClick={() => onNavigate('home')}
-                size="small"
+                variant="full"
+                orientation="stacked"
+                size="lg"
+                tone="dark"
                 ariaLabel="Go to top"
               />
             </div>
@@ -40,7 +43,7 @@ export function Footer({ onNavigate, isNavigating }: FooterProps) {
                 info@latiffoundation.org
               </a>
             </li>
-            <li className="text-stone-600 text-sm">Website Designed by Kin&Copy</li>
+            <li className="text-stone-600 text-sm">Website designed by Kin&nbsp;&amp;&nbsp;Copy</li>
           </FooterColumn>
         </div>
 
@@ -66,9 +69,9 @@ interface FooterColumnProps {
 function FooterColumn({ title, children }: FooterColumnProps) {
   return (
     <div>
-      <h2 className="text-xs font-bold tracking-[0.2em] uppercase text-stone-500 mb-8">
+      <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-stone-500 mb-8">
         {title}
-      </h2>
+      </h3>
       <ul className="space-y-4">{children}</ul>
     </div>
   );
