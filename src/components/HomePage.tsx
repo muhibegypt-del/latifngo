@@ -63,48 +63,55 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
     {/* ============================== */}
     {/* SECTION 1: HERO (Editorial) */}
     {/* ============================== */}
-    <section className="relative min-h-screen flex items-center pt-section overflow-hidden bg-foundation-dark">
-      {/* Background Image / Placeholder */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute inset-0 bg-gradient-to-t from-foundation-dark/90 via-foundation-dark/40 to-foundation-dark/10 z-10" />
-        <img
-          src="/abdul-lateef.jpg"
-          alt="Portrait of Abdul Lateef Ayodele"
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          className="w-full h-full object-cover object-top opacity-80"
-        />
+    <section className="relative bg-foundation-dark overflow-hidden lg:min-h-screen">
+      <div className="grid lg:grid-cols-12 lg:min-h-screen">
+
+        {/* Portrait column */}
+        <div className="relative lg:col-span-5 xl:col-span-6 lg:order-2 h-[55vh] sm:h-[65vh] lg:h-auto">
+          <img
+            src="/abdul-lateef.jpg"
+            alt="Portrait of Abdul Lateef Ayodele"
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-foundation-dark/85 lg:bg-gradient-to-l lg:from-transparent lg:via-transparent lg:to-foundation-dark/60"
+          />
+        </div>
+
+        {/* Text column */}
+        <div className="relative lg:col-span-7 xl:col-span-6 lg:order-1 flex items-center px-6 md:px-10 lg:px-16 xl:px-24 py-20 lg:py-32">
+          <StainedGlassOverlay />
+          <div className="relative z-10 max-w-2xl">
+            <Reveal stagger={200} direction="up">
+              <p className="text-foundation-secondary font-medium tracking-[0.2em] uppercase text-sm mb-6">In His Honour</p>
+              <h1 className="text-5xl md:text-6xl xl:text-7xl font-serif text-white mb-8 leading-[1.05]">
+                The&nbsp;Latif <span className="italic font-light text-foundation-secondary">Foundation</span>
+              </h1>
+              <p className="text-xl md:text-2xl font-light text-stone-300 leading-relaxed mb-8">
+                Transforming short term relief into long term dignity through strategic, coalition-based charity.
+              </p>
+              <div className="w-12 h-px bg-foundation-secondary/40 mb-8" aria-hidden="true" />
+              <p className="text-base text-stone-400 leading-relaxed max-w-md">
+                Established in honour of our beloved brother, Abdul Lateef Ayodele, continuing his quiet legacy of kindness.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 mt-12">
+                <Button variant="primary" onClick={() => scrollToId('fundraisers')}>
+                  Current Fundraisers
+                </Button>
+                <Button variant="ghost" className="text-stone-300 hover:text-white hover:bg-white/10" onClick={() => scrollToId('coalition')}>
+                  Learn About Our Coalition
+                </Button>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+
       </div>
-      
-      <StainedGlassOverlay />
-      
-      <Section className="relative z-20 flex flex-col justify-center h-full">
-        <Reveal stagger={200} direction="up">
-          <p className="text-foundation-secondary font-medium tracking-[0.2em] uppercase text-sm mb-6">In His Honour</p>
-          <h1 className="text-5xl md:text-7xl lg:text-[7rem] font-serif text-white mb-8 max-w-5xl leading-[1.1]">
-            The&nbsp;Latif <span className="italic font-light text-foundation-secondary">Foundation</span>
-          </h1>
-          <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start mt-12">
-            <p className="text-xl md:text-3xl font-light text-stone-300 max-w-2xl leading-relaxed">
-              Transforming short term relief into long term dignity through strategic, coalition-based charity.
-            </p>
-            <div className="hidden md:block w-px h-24 bg-foundation-secondary/30" />
-            <p className="text-base text-stone-400 max-w-sm leading-relaxed mt-2">
-              Established in honour of our beloved brother, Abdul Lateef Ayodele, continuing his quiet legacy of kindness.
-            </p>
-          </div>
-          
-          <div className="flex flex-col sm:flex-row gap-6 mt-16">
-            <Button variant="primary" onClick={() => scrollToId('fundraisers')}>
-              Current Fundraisers
-            </Button>
-            <Button variant="ghost" className="text-stone-300 hover:text-white hover:bg-white/10" onClick={() => scrollToId('coalition')}>
-              Learn About Our Coalition
-            </Button>
-          </div>
-        </Reveal>
-      </Section>
     </section>
 
     {/* ============================== */}
