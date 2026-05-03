@@ -5,6 +5,13 @@ interface HomePageProps {
   navigateTo: (view: string) => void;
 }
 
+const scrollToId = (id: string) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' });
+};
+
 const PARTNERS = [
   {
     name: "Islamic Education Trust",
@@ -60,9 +67,12 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
       {/* Background Image / Placeholder */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-gradient-to-t from-foundation-dark/90 via-foundation-dark/40 to-foundation-dark/10 z-10" />
-        <img 
-          src="/abdul-lateef.jpg" 
-          alt="Hero Background" 
+        <img
+          src="/abdul-lateef.jpg"
+          alt="Portrait of Abdul Lateef Ayodele"
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
           className="w-full h-full object-cover object-top opacity-80"
         />
       </div>
@@ -73,7 +83,7 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
         <Reveal stagger={200} direction="up">
           <p className="text-foundation-secondary font-medium tracking-[0.2em] uppercase text-sm mb-6">In His Honour</p>
           <h1 className="text-5xl md:text-7xl lg:text-[7rem] font-serif text-white mb-8 max-w-5xl leading-[1.1]">
-            The Latif <span className="italic font-light text-foundation-secondary">Foundation</span>
+            The&nbsp;Latif <span className="italic font-light text-foundation-secondary">Foundation</span>
           </h1>
           <div className="flex flex-col md:flex-row gap-8 md:gap-16 items-start mt-12">
             <p className="text-xl md:text-3xl font-light text-stone-300 max-w-2xl leading-relaxed">
@@ -86,16 +96,10 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
           </div>
           
           <div className="flex flex-col sm:flex-row gap-6 mt-16">
-            <Button variant="primary" onClick={() => {
-              const el = document.getElementById('fundraisers');
-              if(el) el.scrollIntoView({ behavior: 'smooth' });
-            }}>
+            <Button variant="primary" onClick={() => scrollToId('fundraisers')}>
               Current Fundraisers
             </Button>
-            <Button variant="ghost" className="text-stone-300 hover:text-white hover:bg-white/10" onClick={() => {
-              const el = document.getElementById('coalition');
-              if(el) el.scrollIntoView({ behavior: 'smooth' });
-            }}>
+            <Button variant="ghost" className="text-stone-300 hover:text-white hover:bg-white/10" onClick={() => scrollToId('coalition')}>
               Learn About Our Coalition
             </Button>
           </div>
@@ -131,10 +135,12 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
           <Reveal direction="right">
             <div className="aspect-[3/4] overflow-hidden rounded-sm relative">
               <div className="absolute inset-0 bg-foundation-primary/10 mix-blend-overlay z-10"></div>
-              <img 
-                src="/abdul-lateef.jpg" 
-                alt="Abdul Lateef Ayodele" 
-                className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-all duration-1000"
+              <img
+                src="/abdul-lateef.jpg"
+                alt="Portrait of Abdul Lateef Ayodele"
+                loading="lazy"
+                decoding="async"
+                className="w-full h-full object-cover filter grayscale hover:grayscale-0 transition-[filter] duration-1000"
               />
             </div>
             <div className="absolute -bottom-8 -right-8 w-64 h-64 bg-foundation-sand -z-10 rounded-sm"></div>
@@ -166,7 +172,7 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
 
             <blockquote className="border-l-2 border-foundation-primary pl-8 mt-12 py-2">
               <p className="text-2xl font-serif text-foundation-dark italic leading-snug">
-                "When his own time came, we should not focus on tears, but instead do as much good for him as possible."
+                &ldquo;When his own time came, we should not focus on tears, but instead do as much good for him as possible.&rdquo;
               </p>
             </blockquote>
           </Reveal>
@@ -194,33 +200,43 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
         <h3 className="text-xs font-bold tracking-[0.2em] uppercase text-foundation-secondary">Our Partners</h3>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8" role="list">
+      <ul role="list" className="grid md:grid-cols-3 gap-8 list-none p-0 m-0">
         {PARTNERS.map((partner, idx) => (
-          <Reveal key={idx} delay={idx * 150} direction="up">
-            <article
-              onClick={() => navigateTo(partner.name.toLowerCase().replace(/\s+/g, '-'))}
-              className="group cursor-pointer flex flex-col h-full bg-white p-12 transition-all duration-500 hover:shadow-xl hover:-translate-y-1 rounded-sm border border-transparent hover:border-foundation-sand"
-            >
-              <div className="relative mb-12 flex-shrink-0">
-                <div className="w-24 h-24 flex items-center justify-start mix-blend-multiply">
-                  <img src={partner.logo} alt={`${partner.name} logo`} className="max-w-full max-h-full object-contain filter grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
+          <li key={partner.name} className="h-full">
+            <Reveal delay={idx * 150} direction="up">
+              <button
+                type="button"
+                onClick={() => navigateTo(partner.name.toLowerCase().replace(/\s+/g, '-'))}
+                aria-label={`Read more about ${partner.name}`}
+                className="group text-left w-full flex flex-col h-full bg-white p-12 rounded-sm border border-transparent transition-[box-shadow,transform,border-color] duration-500 hover:shadow-xl hover:-translate-y-1 hover:border-foundation-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foundation-primary focus-visible:ring-offset-2 [touch-action:manipulation]"
+              >
+                <div className="relative mb-12 flex-shrink-0">
+                  <div className="w-24 h-24 flex items-center justify-start mix-blend-multiply">
+                    <img
+                      src={partner.logo}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                      className="max-w-full max-h-full object-contain filter grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-[filter,opacity] duration-700"
+                    />
+                  </div>
+                  <div className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100 transition-[opacity,transform] duration-300 translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0 group-focus-visible:translate-x-0 group-focus-visible:translate-y-0">
+                    <ArrowUpRight size={24} className="text-foundation-primary" strokeWidth={1} aria-hidden="true" />
+                  </div>
                 </div>
-                <div className="absolute top-0 right-0 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 -translate-y-2 group-hover:translate-x-0 group-hover:translate-y-0">
-                  <ArrowUpRight size={24} className="text-foundation-primary" strokeWidth={1} />
+                <div className="flex-grow">
+                  <h4 className="text-2xl font-serif text-foundation-dark mb-4 group-hover:text-foundation-primary transition-colors">
+                    {partner.name}
+                  </h4>
+                  <p className="text-foundation-muted leading-relaxed text-sm">
+                    {partner.description}
+                  </p>
                 </div>
-              </div>
-              <div className="flex-grow">
-                <h4 className="text-2xl font-serif text-foundation-dark mb-4 group-hover:text-foundation-primary transition-colors">
-                  {partner.name}
-                </h4>
-                <p className="text-foundation-muted leading-relaxed text-sm">
-                  {partner.description}
-                </p>
-              </div>
-            </article>
-          </Reveal>
+              </button>
+            </Reveal>
+          </li>
         ))}
-      </div>
+      </ul>
     </Section>
 
     {/* ============================== */}
@@ -240,9 +256,9 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
           return (
             <div key={idx} className="h-full">
               <Reveal delay={idx * 100} direction="up" className="h-full">
-                <div className={`h-full bg-foundation-light p-12 flex flex-col justify-start rounded-sm border border-stone-100 group transition-shadow hover:shadow-lg hover:border-foundation-primary/20`}>
+                <div className={`h-full bg-foundation-light p-12 flex flex-col justify-start rounded-sm border border-stone-100 group transition-[box-shadow,border-color] duration-300 hover:shadow-lg hover:border-foundation-primary/20`}>
                   <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center mb-8 text-foundation-primary shadow-sm border border-stone-100">
-                    <CardIcon size={20} strokeWidth={1.5} />
+                    <CardIcon size={20} strokeWidth={1.5} aria-hidden="true" />
                   </div>
                   <h3 className="text-2xl font-serif mb-4 text-foundation-dark group-hover:text-foundation-primary transition-colors">
                     {area.title}
@@ -261,7 +277,7 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
     {/* ============================== */}
     {/* SECTION 6: THE LEGACY */}
     {/* ============================== */}
-    <section className="w-full px-6 md:px-10 py-section-lg bg-foundation-dark text-center relative overflow-hidden">
+    <section aria-label="Legacy" className="w-full px-6 md:px-10 py-section-lg bg-foundation-dark text-center relative overflow-hidden">
       <div className="absolute inset-0 bg-foundation-primary/10" />
       <Reveal direction="up">
         <div className="max-w-4xl mx-auto relative z-10">

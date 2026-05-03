@@ -29,15 +29,12 @@ export function Logo({
   const sizes = textSizes[size];
 
   return (
-    <a
-      href="#"
-      onClick={(e) => {
-        e.preventDefault();
-        onClick?.();
-      }}
+    <button
+      type="button"
+      onClick={onClick}
       className={`
         z-50 flex items-center gap-2 md:gap-3 text-stone-900
-        transition-all hover:opacity-70 hover:scale-[1.01] group
+        transition-[opacity,transform] duration-200 hover:opacity-70 hover:scale-[1.01] group
         ${focus.ring}
         ${className}
       `}
@@ -52,6 +49,6 @@ export function Logo({
       <span className={`${sizes.suffix} font-bold tracking-[0.2em] uppercase text-stone-900`}>
         Foundation
       </span>
-    </a>
+    </button>
   );
 }

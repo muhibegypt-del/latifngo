@@ -28,15 +28,15 @@ export default function App() {
       case 'ebdurahman-foundation':
         return <EbdurahmanFoundationPage />;
       case 'water-well':
-        return <WaterWellPage navigateTo={navigateTo} />;
+        return <WaterWellPage />;
       case 'educational-sponsorships':
-        return <EducationalSponsorshipsPage navigateTo={navigateTo} />;
+        return <EducationalSponsorshipsPage />;
       case 'skills-training':
-        return <SkillsTrainingPage navigateTo={navigateTo} />;
+        return <SkillsTrainingPage />;
       case 'orphan-empowerment':
-        return <OrphanEmpowermentPage navigateTo={navigateTo} />;
+        return <OrphanEmpowermentPage />;
       case 'sustainable-development':
-        return <SustainableDevelopmentPage navigateTo={navigateTo} />;
+        return <SustainableDevelopmentPage />;
       default:
         return <HomePage navigateTo={navigateTo} />;
     }

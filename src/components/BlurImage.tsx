@@ -3,11 +3,13 @@ import { useState, useRef, useEffect } from 'react';
 interface BlurImageProps {
   src: string;
   alt: string;
+  width?: number;
+  height?: number;
   className?: string;
   imgClassName?: string;
 }
 
-export const BlurImage = ({ src, alt, className = '', imgClassName = '' }: BlurImageProps) => {
+export const BlurImage = ({ src, alt, width, height, className = '', imgClassName = '' }: BlurImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -43,7 +45,11 @@ export const BlurImage = ({ src, alt, className = '', imgClassName = '' }: BlurI
   }, [isInView]);
 
   return (
-    <div ref={containerRef} className={`relative overflow-hidden ${className}`}>
+    <div
+      ref={containerRef}
+      aria-busy={!isLoaded}
+      className={`relative overflow-hidden ${className}`}
+    >
       <div
         className={`absolute inset-0 bg-stone-200 transition-opacity duration-700 ease-out ${
           isLoaded ? 'opacity-0' : 'opacity-100'
@@ -55,11 +61,15 @@ export const BlurImage = ({ src, alt, className = '', imgClassName = '' }: BlurI
           ref={imgRef}
           src={src}
           alt={alt}
+          width={width}
+          height={height}
+          loading="lazy"
+          decoding="async"
           onLoad={() => setIsLoaded(true)}
-          className={`transition-all duration-700 ease-out ${
-            isLoaded ? 'opacity-100 blur-0 scale-100' : 'opacity-0 blur-sm scale-105'
+          className={`transition-[opacity,transform] duration-700 ease-out ${
+            isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
           } ${imgClassName}`}
-          style={{ willChange: 'opacity, filter, transform' }}
+          style={{ willChange: 'opacity, transform' }}
         />
       )}
     </div>

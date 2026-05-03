@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { ReactNode, MouseEvent, ButtonHTMLAttributes, AnchorHTMLAttributes } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface RevealProps {
   children: ReactNode;
@@ -10,19 +10,29 @@ interface RevealProps {
   width?: 'fit-content' | '100%';
 }
 
-export const Reveal = ({ children, className = "", delay = 0, direction = "up", stagger = 0, width = "100%" }: RevealProps) => {
+export const Reveal = ({ children, className = "", delay = 0, direction = "up", width = "100%" }: RevealProps) => {
+  const prefersReducedMotion = useReducedMotion();
+
+  if (prefersReducedMotion) {
+    return (
+      <div className={className} style={{ width }}>
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div className={className} style={{ width }}>
       <motion.div
         variants={{
-          hidden: { 
-            opacity: 0, 
+          hidden: {
+            opacity: 0,
             y: direction === 'up' ? 50 : direction === 'down' ? -50 : 0,
             x: direction === 'left' ? 50 : direction === 'right' ? -50 : 0,
           },
-          visible: { 
-            opacity: 1, 
-            y: 0, 
+          visible: {
+            opacity: 1,
+            y: 0,
             x: 0,
           },
         }}
@@ -77,37 +87,56 @@ export const MoroccanPatternBackground = () => (
 
 // --- UI COMPONENTS ---
 
-interface ButtonProps {
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'ghost';
+
+interface CommonButtonProps {
   children: ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
+  variant?: ButtonVariant;
   className?: string;
-  href?: string;
-  target?: string;
-  onClick?: () => void;
-  disabled?: boolean;
-  [key: string]: any;
 }
 
-export const Button = ({ children, variant = "primary", className = "", href, target, onClick, ...props }: ButtonProps) => {
-  const baseStyles = "inline-flex items-center justify-center px-8 py-4 min-h-[44px] text-xs uppercase tracking-[0.15em] font-medium transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foundation-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed";
+type ButtonAsButton = CommonButtonProps & Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'className' | 'children'> & {
+  href?: undefined;
+};
 
-  const variants = {
-    primary: "bg-foundation-primary text-stone-50 hover:bg-foundation-dark hover:shadow-xl hover:-translate-y-0.5 ring-foundation-primary active:translate-y-0 active:shadow-none",
-    secondary: "bg-stone-100 text-foundation-dark hover:bg-stone-200 ring-stone-200 hover:-translate-y-0.5",
-    outline: "border border-stone-300 text-stone-600 hover:border-foundation-primary hover:text-foundation-primary hover:bg-stone-50",
-    ghost: "text-stone-500 hover:text-foundation-primary hover:bg-stone-50/50",
-  };
+type ButtonAsAnchor = CommonButtonProps & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'className' | 'children' | 'href'> & {
+  href: string;
+};
 
-  if (href) {
+type ButtonProps = ButtonAsButton | ButtonAsAnchor;
+
+const baseButtonStyles = "inline-flex items-center justify-center px-8 py-4 min-h-[44px] text-xs uppercase tracking-[0.15em] font-medium ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foundation-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-[background-color,color,box-shadow,border-color,transform] duration-300 [touch-action:manipulation]";
+
+const buttonVariants: Record<ButtonVariant, string> = {
+  primary: "bg-foundation-primary text-stone-50 hover:bg-foundation-dark hover:shadow-xl hover:-translate-y-0.5 ring-foundation-primary active:translate-y-0 active:shadow-none",
+  secondary: "bg-stone-100 text-foundation-dark hover:bg-stone-200 ring-stone-200 hover:-translate-y-0.5",
+  outline: "border border-stone-300 text-stone-600 hover:border-foundation-primary hover:text-foundation-primary hover:bg-stone-50",
+  ghost: "text-stone-500 hover:text-foundation-primary hover:bg-stone-50/50",
+};
+
+export const Button = (props: ButtonProps) => {
+  const { children, variant = "primary", className = "" } = props;
+  const classes = `${baseButtonStyles} ${buttonVariants[variant]} ${className}`;
+
+  if (props.href !== undefined) {
+    const { href, target, ...rest } = props as ButtonAsAnchor;
     return (
-      <a href={href} target={target} rel={target === '_blank' ? 'noopener noreferrer' : undefined} className={`${baseStyles} ${variants[variant]} ${className}`} {...props}>
+      <a
+        href={href}
+        target={target}
+        rel={target === '_blank' ? 'noopener noreferrer' : undefined}
+        className={classes}
+        {...rest}
+      >
         {children}
       </a>
     );
   }
 
+  const { ...rest } = props as ButtonAsButton;
+  delete (rest as Partial<ButtonAsAnchor>).href;
   return (
-    <button onClick={onClick} className={`${baseStyles} ${variants[variant]} ${className}`} {...props}>
+    <button className={classes} {...rest}>
       {children}
     </button>
   );
@@ -136,16 +165,21 @@ interface NavLinkProps {
   className?: string;
 }
 
+const isModifiedClick = (e: MouseEvent<HTMLAnchorElement>) =>
+  e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0;
+
 export const NavLink = ({ href, children, mobile = false, onClick, active = false, className = "" }: NavLinkProps) => (
   <a
     href={href}
     onClick={(e) => {
+      if (isModifiedClick(e)) return;
       e.preventDefault();
       if (onClick) onClick();
     }}
     aria-current={active ? 'page' : undefined}
     className={`
-      relative group text-[13px] font-medium tracking-wide uppercase transition-all duration-300
+      relative group text-[13px] font-medium tracking-wide uppercase
+      transition-[color,transform] duration-300
       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-foundation-primary focus-visible:ring-offset-2 rounded-sm
       ${mobile
         ? "text-3xl font-serif italic normal-case py-6 text-stone-800 border-b border-stone-100 block"
@@ -156,7 +190,7 @@ export const NavLink = ({ href, children, mobile = false, onClick, active = fals
   >
     {children}
     {!mobile && (
-      <span className={`absolute -bottom-2 left-0 h-px bg-foundation-primary transition-all duration-300 ease-out ${active ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'}`}></span>
+      <span className={`absolute -bottom-2 left-0 h-px bg-foundation-primary transition-[width,opacity] duration-300 ease-out ${active ? 'w-full opacity-100' : 'w-0 opacity-0 group-hover:w-full group-hover:opacity-100'}`}></span>
     )}
   </a>
 );
