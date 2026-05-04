@@ -1,5 +1,5 @@
 import { Droplets, BookOpen, Wrench, Users, Sprout, ArrowUpRight } from 'lucide-react';
-import { Reveal, Section, Button, StainedGlassOverlay } from './shared';
+import { Reveal, Section, Button } from './shared';
 
 interface HomePageProps {
   navigateTo: (view: string) => void;
@@ -68,9 +68,7 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
         <Reveal direction="up" stagger={150}>
           <div className="max-w-2xl">
             <h1 className="ds-heading-1 text-foundation-primary mb-8">
-              Honoring a life of<br className="hidden md:block" />
-              {' '}sincerity, dignity,<br className="hidden md:block" />
-              {' '}and compassion.
+              Honoring a life of sincerity, dignity, and compassion.
             </h1>
             <p className="ds-subheading text-foundation-muted mb-10 max-w-xl xl:max-w-2xl">
               The Latif Foundation acts as a steward of Abdul Latif Ayodele, a continuous offering to the world, dedicated to his name so that light may reach him in the afterlife.
@@ -187,12 +185,12 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
     {/* ============================== */}
     <Section id="coalition" className="bg-foundation-sand py-section-lg">
       <Reveal className="mb-20" direction="up">
-        <h2 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-[6rem] font-serif text-foundation-dark mb-8">Our Coalition Model</h2>
-        <div className="grid md:grid-cols-2 gap-12 max-w-5xl xl:max-w-7xl 2xl:max-w-screen-xl">
-          <p className="text-foundation-muted leading-relaxed text-lg xl:text-xl 2xl:text-2xl">
+        <h2 className="ds-heading-1 text-foundation-dark mb-8">Our Coalition Model</h2>
+        <div className="grid md:grid-cols-2 gap-12 max-w-5xl">
+          <p className="ds-body-lg">
             The Latif Foundation operates as a coalition. We partner with trusted grassroots organisations that have already been serving their communities for years, sometimes decades.
           </p>
-          <p className="text-foundation-muted leading-relaxed text-lg xl:text-xl 2xl:text-2xl">
+          <p className="ds-body-lg">
             Rather than duplicating their efforts, we strengthen them. We expand their reach. We provide funding, structure, visibility, and long term strategic support to maximise impact.
           </p>
         </div>
@@ -227,10 +225,10 @@ export const HomePage = ({ navigateTo }: HomePageProps) => (
                   </div>
                 </div>
                 <div className="flex-grow">
-                  <h4 className="text-2xl xl:text-3xl 2xl:text-4xl font-serif text-foundation-dark mb-4 group-hover:text-foundation-primary transition-colors">
+                  <h4 className="ds-heading-3 text-foundation-dark mb-4 group-hover:text-foundation-primary transition-colors">
                     {partner.name}
                   </h4>
-                  <p className="text-foundation-muted leading-relaxed text-sm xl:text-base 2xl:text-lg">
+                  <p className="ds-body text-foundation-muted">
                     {partner.description}
                   </p>
                 </div>

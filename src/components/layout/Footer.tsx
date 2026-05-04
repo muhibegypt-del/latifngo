@@ -30,7 +30,7 @@ export function Footer({ onNavigate, isNavigating }: FooterProps) {
 
           <FooterColumn title="Explore">
             <FooterLink onClick={() => onNavigate('home')} disabled={isNavigating}>Home</FooterLink>
-
+            <FooterLink onClick={() => onNavigate('qurbani')} disabled={isNavigating}>Qurbani 2026</FooterLink>
           </FooterColumn>
 
           <FooterColumn title="Contact">
@@ -48,12 +48,11 @@ export function Footer({ onNavigate, isNavigating }: FooterProps) {
 
         <div className="flex flex-col md:flex-row justify-between items-end pt-8 border-t border-stone-200 text-stone-500 text-xs tracking-wide">
           <div className="space-y-1">
-            <p className="font-serif text-foundation-primary text-xl mb-4">&copy; {new Date().getFullYear()} The Latif Foundation.</p>
+            <p className="font-medium text-stone-700 text-sm mb-3">&copy; {new Date().getFullYear()} The Latif Foundation.</p>
             <p>Registered in Nigeria</p>
             <p>CAC Registration Number: 9295995</p>
             <p>Tax Identification Number (TIN): 2620339892575</p>
           </div>
-          <p className="mt-4 md:mt-0 uppercase tracking-wide">Restrained Elegance.</p>
         </div>
       </div>
     </footer>

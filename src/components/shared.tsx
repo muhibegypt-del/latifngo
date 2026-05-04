@@ -48,43 +48,6 @@ export const Reveal = ({ children, className = "", delay = 0, direction = "up", 
   );
 };
 
-// --- AESTHETIC COMPONENTS ---
-
-export const ZelligeSeparator = ({ className = "" }) => (
-  <div className={`flex items-center gap-4 opacity-30 py-10 ${className}`} aria-hidden="true">
-    <div className="h-px bg-stone-400 w-12"></div>
-    <div className="flex gap-3">
-       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-foundation-primary"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="currentColor" /></svg>
-       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-foundation-secondary"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="currentColor" /></svg>
-       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" className="text-foundation-primary"><path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z" fill="currentColor" /></svg>
-    </div>
-    <div className="h-px bg-stone-400 w-12"></div>
-  </div>
-);
-
-export const StainedGlassOverlay = () => (
-  <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-    <div className="absolute top-[-10%] right-[-5%] w-[50vw] h-[50vw] bg-foundation-primary/5 blur-[120px] rounded-full"></div>
-    <div className="absolute top-[20%] right-[10%] w-[30vw] h-[30vw] bg-foundation-secondary/5 blur-[100px] rounded-full"></div>
-    <div className="absolute top-[-5%] left-[20%] w-[40vw] h-[40vw] bg-stone-200/30 blur-[80px] rounded-full"></div>
-  </div>
-);
-
-export const MoroccanPatternBackground = () => (
-  <div
-    className="absolute inset-0 z-0 pointer-events-none"
-    aria-hidden="true"
-    style={{
-      opacity: 0.15,
-      backgroundImage: `url('https://i.ibb.co/QhY4H8L/moody-moroccan-pattern-background-vector.jpg')`,
-      backgroundSize: '1200px',
-      backgroundPosition: 'right top',
-      backgroundRepeat: 'repeat',
-      maskImage: 'linear-gradient(to left, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0) 50%)',
-      WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0) 50%)'
-    }}
-  />
-);
 
 // --- UI COMPONENTS ---
 

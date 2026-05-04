@@ -2,8 +2,8 @@ import { Reveal, Button } from './shared';
 
 export const QurbaniPage = () => {
   return (
-    <div className="bg-[#faf8f3] text-[#1a1a17] font-sans pt-32 pb-24 min-h-screen">
-      <div className="max-w-[720px] lg:max-w-4xl xl:max-w-5xl 2xl:max-w-6xl mx-auto px-5 flex flex-col gap-4 lg:gap-6 2xl:gap-8">
+    <div className="bg-foundation-light text-foundation-dark font-sans pt-32 pb-24 min-h-screen">
+      <div className="max-w-3xl mx-auto px-5 flex flex-col gap-4 lg:gap-6">
       
         {/* SECTION 1 — HERO */}
         <Reveal direction="up" stagger={100}>
