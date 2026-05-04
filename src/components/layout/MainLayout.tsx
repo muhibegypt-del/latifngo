@@ -2,8 +2,7 @@ import { ReactNode } from 'react';
 import { Navigation } from './Navigation';
 import { Footer } from './Footer';
 
-type View = 'home';
-
+import { View } from '../../hooks/useNavigation';
 interface MainLayoutProps {
   children: ReactNode;
   view: View;

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-type View = 'home' | 'islamic-education-trust' | 'baitul-khair' | 'ebdurahman-foundation' | 'water-well' | 'educational-sponsorships' | 'skills-training' | 'orphan-empowerment' | 'sustainable-development';
+export type View = 'home' | 'islamic-education-trust' | 'baitul-khair' | 'ebdurahman-foundation' | 'water-well' | 'educational-sponsorships' | 'skills-training' | 'orphan-empowerment' | 'sustainable-development' | 'qurbani';
 
 interface NavigationState {
   view: View;
@@ -16,7 +16,7 @@ export function useNavigation(): NavigationState {
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
-    const validViews: View[] = ['islamic-education-trust', 'baitul-khair', 'ebdurahman-foundation', 'water-well', 'educational-sponsorships', 'skills-training', 'orphan-empowerment', 'sustainable-development'];
+    const validViews: View[] = ['islamic-education-trust', 'baitul-khair', 'ebdurahman-foundation', 'water-well', 'educational-sponsorships', 'skills-training', 'orphan-empowerment', 'sustainable-development', 'qurbani'];
     if (validViews.includes(hash as View)) {
       setView(hash as View);
     }
@@ -59,18 +59,27 @@ export function useNavigation(): NavigationState {
   }, []);
 
   const scrollToSection = useCallback((sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const navHeight = 96;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+    const doScroll = () => {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const navHeight = 96;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - navHeight;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
+      }
+    };
+
+    if (!document.getElementById(sectionId)) {
+      navigateTo('home');
+      setTimeout(doScroll, 150);
+    } else {
+      doScroll();
     }
-  }, []);
+  }, [navigateTo]);
 
   return { view, navigateTo, scrollToSection, isNavigating };
 }

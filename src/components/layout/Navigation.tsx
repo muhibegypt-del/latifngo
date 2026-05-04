@@ -4,8 +4,7 @@ import { NavLink, Button } from '../shared';
 import { Logo } from '../atoms/Logo';
 import { focus } from '../../theme/tokens';
 
-type View = 'home' | 'islamic-education-trust' | 'baitul-khair' | 'ebdurahman-foundation' | 'water-well' | 'educational-sponsorships' | 'skills-training' | 'orphan-empowerment' | 'sustainable-development';
-
+import { View } from '../../hooks/useNavigation';
 interface NavigationProps {
   view: View;
   isScrolled: boolean;
@@ -139,7 +138,7 @@ export function Navigation({
                 onClick={() => handleViewChange('home')}
                 variant="full"
                 size="sm"
-                tone={isScrolled ? 'dark' : 'light'}
+                tone="dark"
                 className="hidden md:inline-flex"
                 ariaLabel="The Latif Foundation — home"
               />
@@ -147,7 +146,7 @@ export function Navigation({
                 onClick={() => handleViewChange('home')}
                 variant="mark"
                 size="sm"
-                tone={isScrolled ? 'dark' : 'light'}
+                tone="dark"
                 className="md:hidden"
                 ariaLabel="The Latif Foundation — home"
               />
@@ -164,7 +163,7 @@ export function Navigation({
                     type="button"
                     onClick={() => handleViewChange('home')}
                     disabled={isNavigating}
-                    className={`${isScrolled ? 'text-stone-500 hover:text-foundation-primary' : 'text-stone-100/90 hover:text-white'} text-sm font-medium tracking-wide uppercase flex items-center gap-2 transition-colors duration-200 whitespace-nowrap ${focus.ring} ${isNavigating ? 'cursor-not-allowed' : ''}`}
+                    className={`text-stone-600 hover:text-foundation-primary text-sm font-medium tracking-wide uppercase flex items-center gap-2 transition-colors duration-200 whitespace-nowrap ${focus.ring} ${isNavigating ? 'cursor-not-allowed' : ''}`}
                   >
                     <ArrowLeft size={16} className="-mt-0.5" aria-hidden="true" />
                     <span>Back to Home</span>
@@ -172,8 +171,16 @@ export function Navigation({
                 ) : (
                   <>
                     <NavLink
+                      href="#qurbani"
+                      tone="default"
+                      onClick={(e) => { e.preventDefault(); handleViewChange('qurbani'); }}
+                      className="whitespace-nowrap text-foundation-secondary font-semibold"
+                    >
+                      Qurbani 2026
+                    </NavLink>
+                    <NavLink
                       href="#inspiration"
-                      tone={isScrolled ? 'default' : 'light'}
+                      tone="default"
                       onClick={() => handleNavClick('inspiration')}
                       className="whitespace-nowrap"
                     >
@@ -181,7 +188,7 @@ export function Navigation({
                     </NavLink>
                     <NavLink
                       href="#coalition"
-                      tone={isScrolled ? 'default' : 'light'}
+                      tone="default"
                       onClick={() => handleNavClick('coalition')}
                       className="whitespace-nowrap"
                     >
@@ -189,7 +196,7 @@ export function Navigation({
                     </NavLink>
                     <NavLink
                       href="#focus"
-                      tone={isScrolled ? 'default' : 'light'}
+                      tone="default"
                       onClick={() => handleNavClick('focus')}
                       className="whitespace-nowrap"
                     >
@@ -217,7 +224,7 @@ export function Navigation({
                 ref={menuToggleRef}
                 type="button"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className={`md:hidden p-3 -mr-3 min-w-[44px] min-h-[44px] flex items-center justify-center ${mobileMenuOpen || isScrolled ? 'text-stone-900 hover:bg-stone-100' : 'text-stone-100 hover:bg-white/10'} rounded-lg transition-[background-color,transform,color] duration-200 active:scale-95 [touch-action:manipulation] ${focus.ring}`}
+                className={`md:hidden p-3 -mr-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-stone-900 hover:bg-stone-100 rounded-lg transition-[background-color,transform,color] duration-200 active:scale-95 [touch-action:manipulation] ${focus.ring}`}
                 aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-menu"
@@ -255,6 +262,9 @@ export function Navigation({
           <nav aria-label="Mobile" className={`flex flex-col space-y-2 transition-opacity duration-150 ${isNavigating ? 'opacity-50 pointer-events-none' : ''}`}>
             {view === 'home' ? (
               <>
+                <MobileNavLink onClick={() => handleViewChange('qurbani')} disabled={isNavigating}>
+                  <span className="text-foundation-secondary">Qurbani 2026</span>
+                </MobileNavLink>
                 <MobileNavLink onClick={() => handleNavClick('inspiration')} disabled={isNavigating}>Our Story</MobileNavLink>
                 <MobileNavLink onClick={() => handleNavClick('coalition')} disabled={isNavigating}>Coalition</MobileNavLink>
                 <MobileNavLink onClick={() => handleNavClick('focus')} disabled={isNavigating}>Our Focus</MobileNavLink>

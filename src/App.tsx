@@ -8,6 +8,7 @@ import { EducationalSponsorshipsPage } from './components/EducationalSponsorship
 import { SkillsTrainingPage } from './components/SkillsTrainingPage';
 import { OrphanEmpowermentPage } from './components/OrphanEmpowermentPage';
 import { SustainableDevelopmentPage } from './components/SustainableDevelopmentPage';
+import { QurbaniPage } from './components/QurbaniPage';
 import { useScrollPosition } from './hooks/useScrollPosition';
 import { useNavigation } from './hooks/useNavigation';
 import { useLenis } from './hooks/useLenis';
@@ -37,6 +38,8 @@ export default function App() {
         return <OrphanEmpowermentPage />;
       case 'sustainable-development':
         return <SustainableDevelopmentPage />;
+      case 'qurbani':
+        return <QurbaniPage />;
       default:
         return <HomePage navigateTo={navigateTo} />;
     }

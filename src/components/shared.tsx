@@ -40,6 +40,7 @@ export const Reveal = ({ children, className = "", delay = 0, direction = "up", 
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8, delay: delay / 1000, ease: [0.16, 1, 0.3, 1] }}
+        className={className.includes('h-full') ? 'h-full' : ''}
       >
         {children}
       </motion.div>

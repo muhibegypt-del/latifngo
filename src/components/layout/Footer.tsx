@@ -1,8 +1,7 @@
 import { Logo } from '../atoms/Logo';
 import { focus } from '../../theme/tokens';
 
-type View = 'home';
-
+import { View } from '../../hooks/useNavigation';
 interface FooterProps {
   onNavigate: (view: View) => void;
   isNavigating: boolean;

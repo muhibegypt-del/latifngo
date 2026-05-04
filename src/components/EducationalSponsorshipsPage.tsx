@@ -3,17 +3,17 @@ import { Section, Button } from './shared';
 export const EducationalSponsorshipsPage = () => (
   <section className="relative min-h-screen flex items-center justify-center py-32 bg-stone-50">
     <Section className="relative z-10">
-      <div className="max-w-3xl mx-auto text-center">
-        <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif text-stone-900 mb-6 leading-tight">
+      <div className="max-w-3xl xl:max-w-4xl 2xl:max-w-5xl mx-auto text-center">
+        <h1 className="ds-heading-1 text-stone-900 mb-6 xl:mb-8">
           Educational Sponsorships
         </h1>
 
-        <p className="text-xl md:text-2xl text-stone-600 mb-8 font-light">
+        <p className="ds-subheading text-stone-600 mb-8 xl:mb-12">
           Funding scholarships and learning resources for students who lack access to quality education.
         </p>
 
-        <div className="max-w-2xl mx-auto mb-12">
-          <p className="text-lg text-stone-700 leading-relaxed">
+        <div className="max-w-2xl xl:max-w-3xl 2xl:max-w-4xl mx-auto mb-12 xl:mb-16">
+          <p className="ds-body-lg text-stone-700">
             Education unlocks potential and breaks cycles of poverty. Our sponsorship programs provide complete support for students, from school fees and materials to uniforms and meals, ensuring nothing stands between a child and their education. Every sponsorship is an investment in a brighter future.
           </p>
         </div>
